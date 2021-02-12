@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactListTableViewCell" rowHeight="72" id="ws6-8c-msC" customClass="ContactListTableViewCell" customModule="RapSheet" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="376" height="72"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ws6-8c-msC" id="wuW-iP-inV">
+                <rect key="frame" x="0.0" y="0.0" width="376" height="72"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Kalpesh Satasiya" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dLL-A1-sGU">
+                        <rect key="frame" x="30" y="10" width="296" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="CPp-PC-hV6"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="295" id="Js6-9e-NOV"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="18"/>
+                        <color key="textColor" red="0.098039215686274508" green="0.11372549019607843" blue="0.12549019607843137" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="74055 79402" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FiA-J7-r39">
+                        <rect key="frame" x="30" y="41" width="105.5" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="0pA-45-bSp"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="18"/>
+                        <color key="textColor" red="0.45490196078431372" green="0.52156862745098043" blue="0.58431372549019611" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oka-L6-5Ll">
+                        <rect key="frame" x="0.0" y="72" width="376" height="0.0"/>
+                        <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" id="vlb-A0-gr5"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_navigation" translatesAutoresizingMaskIntoConstraints="NO" id="KXM-7F-XzT">
+                        <rect key="frame" x="346.5" y="27" width="9.5" height="18"/>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="oka-L6-5Ll" firstAttribute="top" secondItem="FiA-J7-r39" secondAttribute="bottom" constant="6" id="H55-k4-L1k"/>
+                    <constraint firstAttribute="trailing" secondItem="KXM-7F-XzT" secondAttribute="trailing" constant="20" id="HEG-XB-uLz"/>
+                    <constraint firstItem="dLL-A1-sGU" firstAttribute="leading" secondItem="wuW-iP-inV" secondAttribute="leading" constant="30" id="RpB-NG-d1g"/>
+                    <constraint firstItem="FiA-J7-r39" firstAttribute="leading" secondItem="dLL-A1-sGU" secondAttribute="leading" id="Sbu-FB-kxj"/>
+                    <constraint firstAttribute="trailing" secondItem="oka-L6-5Ll" secondAttribute="trailing" id="UOL-gS-aQp"/>
+                    <constraint firstItem="KXM-7F-XzT" firstAttribute="leading" secondItem="dLL-A1-sGU" secondAttribute="trailing" constant="20.5" id="VYc-KB-uBA"/>
+                    <constraint firstItem="oka-L6-5Ll" firstAttribute="leading" secondItem="wuW-iP-inV" secondAttribute="leading" id="XnU-XP-Zjq"/>
+                    <constraint firstItem="FiA-J7-r39" firstAttribute="top" secondItem="dLL-A1-sGU" secondAttribute="bottom" constant="6" id="lW1-4U-wcs"/>
+                    <constraint firstItem="KXM-7F-XzT" firstAttribute="centerY" secondItem="wuW-iP-inV" secondAttribute="centerY" id="pzc-b9-qFt"/>
+                    <constraint firstItem="dLL-A1-sGU" firstAttribute="top" secondItem="wuW-iP-inV" secondAttribute="top" constant="10" id="vUG-HP-kNK"/>
+                    <constraint firstAttribute="bottom" secondItem="oka-L6-5Ll" secondAttribute="bottom" id="zCV-sA-sws"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lblMobileNumber" destination="FiA-J7-r39" id="xCT-6r-OqG"/>
+                <outlet property="lblUserName" destination="dLL-A1-sGU" id="z4T-9J-8Hv"/>
+            </connections>
+            <point key="canvasLocation" x="142.40000000000001" y="129.53523238380811"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_navigation" width="9.5" height="18"/>
+    </resources>
+</document>
