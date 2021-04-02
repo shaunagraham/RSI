@@ -21,13 +21,11 @@ class HelpScreenViewController: UIViewController, SWRevealViewControllerDelegate
     
     //MARK:- VARIABLE
     
-    var web_url:String = "http://rapsheetapp.com/faq/?device=mobile"
         //UserDefaults.standard.object(forKey: "Web_url") as! String
     var defaults = UserDefaults.standard
     var hud:MBProgressHUD?
     var isCome = iscomeFrom.Help
-    var web_url_Privacy :String = "http://rapsheetapp.com/privacy-policy/?device=mobile"
-    var web_url_term :String = "https://rapsheetapp.com/terms-of-use/"
+
     //MARK:- Outlet
     
 //    @IBOutlet weak var btnMenu: UIButton!
@@ -38,7 +36,8 @@ class HelpScreenViewController: UIViewController, SWRevealViewControllerDelegate
     @IBOutlet weak var lblHelp: UILabel!
     @IBOutlet weak var webViewHelp: WKWebView!
     
-    
+    //MARK:- METHODS
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -55,6 +55,11 @@
 		BDCF3D0325909C490081D8D0 /* SkyFloatingLabelTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCF3D0025909C400081D8D0 /* SkyFloatingLabelTextField.swift */; };
 		BDCF3D0425909C490081D8D0 /* UITextField+fixCaretPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCF3D0125909C400081D8D0 /* UITextField+fixCaretPosition.swift */; };
 		BDCF3D0525909C490081D8D0 /* SkyFloatingLabelTextFieldWithIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCF3D0225909C400081D8D0 /* SkyFloatingLabelTextFieldWithIcon.swift */; };
+		BDD6A4EE25ECAEE300C4FCE0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BDD6A4ED25ECAEE300C4FCE0 /* GoogleService-Info.plist */; };
+		BDEDF43825EA12DA00140CD8 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEDF43625EA12DA00140CD8 /* CommentCell.swift */; };
+		BDEDF43925EA12DA00140CD8 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDEDF43725EA12DA00140CD8 /* CommentCell.xib */; };
+		BDEDF43C25EA139800140CD8 /* AddComment+CollectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEDF43B25EA139800140CD8 /* AddComment+CollectionDelegate.swift */; };
+		BDEDF46A25EA25BB00140CD8 /* TagFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEDF46925EA25BB00140CD8 /* TagFlowLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,6 +113,11 @@
 		BDCF3D0025909C400081D8D0 /* SkyFloatingLabelTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyFloatingLabelTextField.swift; sourceTree = "<group>"; };
 		BDCF3D0125909C400081D8D0 /* UITextField+fixCaretPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+fixCaretPosition.swift"; sourceTree = "<group>"; };
 		BDCF3D0225909C400081D8D0 /* SkyFloatingLabelTextFieldWithIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyFloatingLabelTextFieldWithIcon.swift; sourceTree = "<group>"; };
+		BDD6A4ED25ECAEE300C4FCE0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BDEDF43625EA12DA00140CD8 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		BDEDF43725EA12DA00140CD8 /* CommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
+		BDEDF43B25EA139800140CD8 /* AddComment+CollectionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddComment+CollectionDelegate.swift"; sourceTree = "<group>"; };
+		BDEDF46925EA25BB00140CD8 /* TagFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagFlowLayout.swift; sourceTree = "<group>"; };
 		DBDDE39144E71F432872BD49 /* Pods-RapSheet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RapSheet.release.xcconfig"; path = "Pods/Target Support Files/Pods-RapSheet/Pods-RapSheet.release.xcconfig"; sourceTree = "<group>"; };
 		E6F26A567C911C52036B49C4 /* Pods_RapSheet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RapSheet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -145,6 +155,7 @@
 		0423E7F92119E9D30035841A /* RapSheet */ = {
 			isa = PBXGroup;
 			children = (
+				BDD6A4ED25ECAEE300C4FCE0 /* GoogleService-Info.plist */,
 				0423E7FA2119E9D30035841A /* AppDelegate.swift */,
 				BDCF3CFF25909C400081D8D0 /* SkyFloatingLabelTextField */,
 				0423E8132119F97A0035841A /* Other Conroller And Library */,
@@ -199,6 +210,7 @@
 		0423E8132119F97A0035841A /* Other Conroller And Library */ = {
 			isa = PBXGroup;
 			children = (
+				BDEDF46825EA25A800140CD8 /* CustomTagCollection */,
 				4FDE6CA921F239DD005639AD /* API.swift */,
 				BD20788C255019B8004CBB25 /* Constant.swift */,
 				0423E8142119F9A60035841A /* CommanUntil.swift */,
@@ -251,7 +263,9 @@
 		0482CBF4211DF9E8000414B4 /* Add Comment */ = {
 			isa = PBXGroup;
 			children = (
+				BDEDF43425EA129B00140CD8 /* CollectionCell */,
 				0482CBF5211DFA05000414B4 /* AddCommentScreenViewController.swift */,
+				BDEDF43B25EA139800140CD8 /* AddComment+CollectionDelegate.swift */,
 			);
 			path = "Add Comment";
 			sourceTree = "<group>";
@@ -324,6 +338,23 @@
 				BDCF3D0225909C400081D8D0 /* SkyFloatingLabelTextFieldWithIcon.swift */,
 			);
 			path = SkyFloatingLabelTextField;
+			sourceTree = "<group>";
+		};
+		BDEDF43425EA129B00140CD8 /* CollectionCell */ = {
+			isa = PBXGroup;
+			children = (
+				BDEDF43625EA12DA00140CD8 /* CommentCell.swift */,
+				BDEDF43725EA12DA00140CD8 /* CommentCell.xib */,
+			);
+			path = CollectionCell;
+			sourceTree = "<group>";
+		};
+		BDEDF46825EA25A800140CD8 /* CustomTagCollection */ = {
+			isa = PBXGroup;
+			children = (
+				BDEDF46925EA25BB00140CD8 /* TagFlowLayout.swift */,
+			);
+			path = CustomTagCollection;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -403,7 +434,9 @@
 				4F35AA5F2310285000CB218A /* MenuTVCell.xib in Resources */,
 				BD15B7BD255118350041D413 /* SFProDisplay-Bold.ttf in Resources */,
 				BD1DA6EE25502AF90063AF5F /* SFProText-Regular.ttf in Resources */,
+				BDEDF43925EA12DA00140CD8 /* CommentCell.xib in Resources */,
 				0423E8002119E9D30035841A /* Main.storyboard in Resources */,
+				BDD6A4EE25ECAEE300C4FCE0 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,7 +475,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" e6e50058e1152e4997ab3a8285cdba676dca0997 8ec71c424978994db7130697a4615e09f5a5c2260bace84ad02725c47df05c15\n";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" e6e50058e1152e4997ab3a8285cdba676dca0997 8ec71c424978994db7130697a4615e09f5a5c2260bace84ad02725c47df05c15\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 		715D3EA1F6D3DECF5C2B2FB0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -472,6 +505,7 @@
 				0482CBF6211DFA05000414B4 /* AddCommentScreenViewController.swift in Sources */,
 				04861B30211B48950020A73F /* BottomShadow.swift in Sources */,
 				4FACEBB422DDB4260075F5DB /* ModalAnimationPresentationController.swift in Sources */,
+				BDEDF43C25EA139800140CD8 /* AddComment+CollectionDelegate.swift in Sources */,
 				4F65A56C21EAF91F00AA3B38 /* Globar_File.swift in Sources */,
 				BD20788A255017C3004CBB25 /* TabBarViewController.swift in Sources */,
 				0423E7FB2119E9D30035841A /* AppDelegate.swift in Sources */,
@@ -482,6 +516,7 @@
 				0486F7DF211C9DFA001B5A25 /* AddNewContactViewController.swift in Sources */,
 				0423E81B211A02740035841A /* MenuListTableViewCell.swift in Sources */,
 				BDCF3D0325909C490081D8D0 /* SkyFloatingLabelTextField.swift in Sources */,
+				BDEDF46A25EA25BB00140CD8 /* TagFlowLayout.swift in Sources */,
 				4F1D068922DEFADB00A5B4A8 /* DisplayReportListViewController.swift in Sources */,
 				4F1D068C22DEFC1800A5B4A8 /* BrowseContactViewController.swift in Sources */,
 				4F35AA5E2310285000CB218A /* MenuTVCell.swift in Sources */,
@@ -492,6 +527,7 @@
 				04B335B02127F740000C3EF1 /* MainNavigationViewController.swift in Sources */,
 				9A6346952556AEA4009093B6 /* MyProfileVC.swift in Sources */,
 				BD947E262589BD7900CA0FD2 /* API_Param.swift in Sources */,
+				BDEDF43825EA12DA00140CD8 /* CommentCell.swift in Sources */,
 				4FACEBB622DDB4260075F5DB /* CustomPresentationController.swift in Sources */,
 				0482CBF3211DE486000414B4 /* CommentListTableViewCell.swift in Sources */,
 				BDCF3D0425909C490081D8D0 /* UITextField+fixCaretPosition.swift in Sources */,
@@ -651,6 +687,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 522DS9XA3F;
 				INFOPLIST_FILE = RapSheet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

@@ -34,6 +34,10 @@ class AddCommentScreenViewController: UIViewController {
     var id = String()
 
     var txtColor = UIColor(red: 29/255, green: 173/255, blue: 169/255, alpha: 1)
+    
+    var arrComments = ["Telemarketer","Robocaller","Fraud","Spoof","Spam","Survey","IRS","Debt Collector","Charity","Political"]
+    var arrName : [String] = []
+    
     //MARK:- Outlet
     
     @IBOutlet weak var txtComment: UITextView!
@@ -47,10 +51,24 @@ class AddCommentScreenViewController: UIViewController {
     @IBOutlet weak var btnAdd: UIButton!
     @IBOutlet weak var txtcomment: SkyFloatingLabelTextField!
 
+    @IBOutlet weak var collectionComment: UICollectionView!
+    
+    @IBOutlet weak var collectionCommentHeight: NSLayoutConstraint!
+    
+    //MARK:- METHODS
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        collectionComment.delegate = self
+        collectionComment.dataSource = self
+        collectionComment.register(UINib(nibName: CommentCell.className , bundle: nil), forCellWithReuseIdentifier: CommentCell.className)
+
+        let layout = TagFlowLayout()
+        layout.estimatedItemSize = CGSize(width: 140, height: 40)
+        collectionComment.collectionViewLayout = layout
         
     }
     
@@ -158,11 +176,18 @@ class AddCommentScreenViewController: UIViewController {
     // MARK:- Validation
     
     func validation() -> Bool {
-      
+      /*
         if txtComment.text == "" || txtComment.text == "Comment" {
             DisplayAlert(title: "Oops!", message: "Please a write comment!", vc: self)
             return false
         }
+        */
+
+        if arrName.count == 0 {
+            DisplayAlert(title: "Oops!", message: "Please select comment!", vc: self)
+            return false
+        }
+        
         return true
     }
     
@@ -202,20 +227,22 @@ class AddCommentScreenViewController: UIViewController {
             return
         }
         
-         let hud:MBProgressHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
-         
-         var param = [String:Any]()
-         param[message] = txtComment.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-         param[Contactid] = Contact_Id
-         param[kRate] = "\(Rating)"
-         param[kUserid] = dictUserDetail.value(forKey: "id")
-         
-         // let param = ["message":txtComment.text!.trimmingCharacters(in: .whitespacesAndNewlines),"contact_id":Contact_Id!,"rate":"\(Rating)","user_id":dictUserDetail.value(forKey: "id")!]
-         debugPrint("add comment: \(param)")
-         
-         let manager = AFHTTPSessionManager(sessionConfiguration: URLSessionConfiguration.default)
-         manager.requestSerializer.setValue("application/json", forHTTPHeaderField: "Accept")
-         manager.post(API.ADD_COMMENT, parameters: param, progress: nil, success: { (task: URLSessionDataTask, responseObject: Any?) in
+        let hud:MBProgressHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
+        
+        let val = arrName.joined(separator: ", ")
+        var param = [String:Any]()
+        param[message] = val.trimmingCharacters(in: .whitespacesAndNewlines)
+        //txtComment.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        param[Contactid] = Contact_Id
+        param[kRate] = "\(Rating)"
+        param[kUserid] = dictUserDetail.value(forKey: "id")
+        
+        // let param = ["message":txtComment.text!.trimmingCharacters(in: .whitespacesAndNewlines),"contact_id":Contact_Id!,"rate":"\(Rating)","user_id":dictUserDetail.value(forKey: "id")!]
+        debugPrint("add comment: \(param)")
+        
+        let manager = AFHTTPSessionManager(sessionConfiguration: URLSessionConfiguration.default)
+        manager.requestSerializer.setValue("application/json", forHTTPHeaderField: "Accept")
+        manager.post(API.ADD_COMMENT, parameters: param, progress: nil, success: { (task: URLSessionDataTask, responseObject: Any?) in
             if let jsonResponse = responseObject as? NSDictionary {
                 // here read response
                 hud.hide(animated: true)
@@ -237,7 +264,7 @@ class AddCommentScreenViewController: UIViewController {
                     self.navigationController?.popViewController(animated: true)
                 }
             }
-         }) { (task: URLSessionDataTask?, error: Error) in
+        }) { (task: URLSessionDataTask?, error: Error) in
             hud.hide(animated: true)
             
             let responseCode = task?.response as! HTTPURLResponse
@@ -250,7 +277,9 @@ class AddCommentScreenViewController: UIViewController {
                 let _: String = String(data: (error._userInfo![AFNetworkingOperationFailingURLResponseDataErrorKey] as! Data), encoding: String.Encoding.utf8)!
                 DisplayAlert(title: oppsmsg , message: SomethingWrong , vc: self)
             }
-         }
+        }
+        
+        
     }
     
     func deleteCommentApi(){

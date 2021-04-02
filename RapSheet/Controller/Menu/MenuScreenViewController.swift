@@ -16,7 +16,7 @@ class MenuScreenViewController: UIViewController {
     
     //MARK:- variable
     
-    var arrMenuList:[String] = ["My Profile","Rate App","Share App","Feedback","Help","Privacy Policy","Terms","Remove ads"]
+    var arrMenuList:[String] = ["My Profile","Blocked Calls","Rate App","Share App","Feedback","Help","Privacy Policy","Terms","Remove ads"]
     //"Remove Results",
     var indexPathValue:Int = 1
     var bottomPathValue:Int?
@@ -42,6 +42,9 @@ class MenuScreenViewController: UIViewController {
     
     @IBOutlet weak var btnRestoreHeight: NSLayoutConstraint!
     @IBOutlet weak var stackviewHeight: NSLayoutConstraint!
+    
+    //MARK:- METHODS
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -156,30 +159,32 @@ extension MenuScreenViewController: UITableViewDataSource {
             cell.imgMenu?.image = #imageLiteral(resourceName: "ic_profile")
             break
         case 1:
+            cell.imgMenu.image = #imageLiteral(resourceName: "ic_block-user")
+        case 2:
             cell.imgMenu?.image = #imageLiteral(resourceName: "ic_rate")
             break
-        case 2:
+        case 3:
             cell.imgMenu?.image = #imageLiteral(resourceName: "ic_share.png")
             break
-        case 3:
+        case 4:
             cell.imgMenu?.image = #imageLiteral(resourceName: "ic_feedback")
             break
-        case 4:
+        case 5:
             cell.imgMenu?.image = #imageLiteral(resourceName: "ic_help")
             break
 //        case 5:
 ////            cell.imgMenu?.image = #imageLiteral(resourceName: "ic_remove")
 //            break
-        case 5:
+        case 6:
             cell.imgMenu?.image = #imageLiteral(resourceName: "ic_privacy")
             break
-        case 6:
+        case 7:
             cell.imgMenu?.image = #imageLiteral(resourceName: "ic_terms")
             break
-        case 7:
+        case 8:
             cell.imgMenu?.image = #imageLiteral(resourceName: "ic_disclaimer.png")
             break
-        case 8:
+        case 9:
             cell.imgMenu.image = #imageLiteral(resourceName: "ic_disclaimer.png")
         default:
             break
@@ -202,6 +207,11 @@ extension MenuScreenViewController: UITableViewDelegate {
             let vc = storyboard?.instantiateViewController(withIdentifier: "MyProfileVC") as! MyProfileVC
             self.navigationController?.pushViewController(vc, animated: true)
         case 1:
+            print("open block")
+            let vc = storyboard?.instantiateViewController(withIdentifier: "BrowseContactViewController") as! BrowseContactViewController
+            vc.isComeFromProfile = true
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 2:
 
             print("rate app")
             if let reviewURL = URL(string: "itms-apps://itunes.apple.com/us/app/apple-store/id1439929100?mt=8"), UIApplication.shared.canOpenURL(reviewURL) {
@@ -211,7 +221,7 @@ extension MenuScreenViewController: UITableViewDelegate {
                     UIApplication.shared.openURL(reviewURL)
                 }
             }
-        case 2:
+        case 3:
 
             let APPUrl:URL = URL(string: "https://itunes.apple.com/us/app/rap-sheet/id1439929100?ls=1&mt=8")!
             let vc = UIActivityViewController(activityItems: [APPUrl], applicationActivities: [])
@@ -224,12 +234,12 @@ extension MenuScreenViewController: UITableViewDelegate {
             }else{
                 present(vc, animated: true)
             }
-        case 3:
+        case 4:
 
             let vc = storyboard?.instantiateViewController(withIdentifier: "FeedbackViewController") as! FeedbackViewController
             self.navigationController?.pushViewController(vc, animated: true)
             
-        case 4:
+        case 5:
             
             let vc = storyboard?.instantiateViewController(withIdentifier: "HelpScreenViewController") as! HelpScreenViewController
             vc.isCome = .Help
@@ -240,19 +250,19 @@ extension MenuScreenViewController: UITableViewDelegate {
 ////            let vc = storyboard?.instantiateViewController(withIdentifier: "RemoveResultVC") as! RemoveResultVC
 ////            self.navigationController?.pushViewController(vc, animated: true)
 //            print("remove ")
-        case 5:
+        case 6:
 
             let vc = storyboard?.instantiateViewController(withIdentifier: "HelpScreenViewController") as! HelpScreenViewController
             vc.isCome = .PrivacePolicy
             self.navigationController?.pushViewController(vc, animated: true)
             
-        case 6:
+        case 7:
 
             let vc = storyboard?.instantiateViewController(withIdentifier: "HelpScreenViewController") as! HelpScreenViewController
             vc.isCome = .Terms
             self.navigationController?.pushViewController(vc, animated: true)
             
-        case 7:
+        case 8:
         print("ok")
                if (SKPaymentQueue.canMakePayments()) {
                    let productID:NSSet = NSSet(object: "com.adrapsheet.crawlapps");

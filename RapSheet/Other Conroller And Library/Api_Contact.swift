@@ -31,6 +31,10 @@ let kBanneradURL = "ca-app-pub-7827617590051418/3441654124"
 let kFulladURL = "ca-app-pub-7827617590051418/4399512571"
 let Reward_Ads = "ca-app-pub-7827617590051418/7413799511"
 
+var web_url:String = "http://rapsheetapp.com/faq/?device=mobile"
+var web_url_Privacy :String = "http://rapsheetapp.com/privacy-policy/?device=mobile"
+var web_url_term :String = "https://rapsheetapp.com/terms-of-use/"
+
 let Auth_Token = "?account_sid=ACc397a3443ce34c1d9b415853b2ce8962&auth_token=AU8f4ffaee4ea446de88b462c02f09fbd7"
 struct API
 {

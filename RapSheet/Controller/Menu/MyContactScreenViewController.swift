@@ -42,6 +42,8 @@ class MyContactScreenViewController: UIViewController {
     var intTextSearchCount:Int = 0
     var interstitial: GADInterstitial?
     
+    //MARK:- METHODS
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

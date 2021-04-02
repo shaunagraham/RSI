@@ -34,6 +34,8 @@ class FeedbackViewController: UIViewController, SWRevealViewControllerDelegate {
     @IBOutlet weak var btnCancle: UIButton!
     @IBOutlet weak var btnAdd: UIButton!
  
+    //MARK:- METHODS
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

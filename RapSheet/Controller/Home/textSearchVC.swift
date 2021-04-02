@@ -13,6 +13,8 @@ import AFNetworking
 import SwiftyJSON
 import GoogleMobileAds
 import MBProgressHUD
+import Firebase
+import Mixpanel
 
 protocol TextFieldValue : class{
     func textFieldEnterValue(text:String)
@@ -27,12 +29,15 @@ class textSearchVC: UIViewController {
     var window: UIWindow?
     var tabBarIndex: Int?
     var interstitial : GADInterstitial?
-    
+    let allowedCharacters = CharacterSet(charactersIn:"0123456789").inverted
+
     //MARK:- OUTLET
     
     @IBOutlet weak var txtNumber: SkyFloatingLabelTextField!
     @IBOutlet weak var btnSearch: UIButton!
     
+    //MARK:- METHODS
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -51,13 +56,13 @@ class textSearchVC: UIViewController {
         txtNumber.becomeFirstResponder()
 //        txtNumber.text = textValue
         
-//        if txtNumber.text != "" {
-//            btnSearch.setTitle("Search", for: .normal)
-//        }
-//        else {
-//
-//        }
-        btnSearch.setTitle("Search Number", for: .normal)
+        if txtNumber.text != "" {
+            btnSearch.setTitle("Search", for: .normal)
+        }
+        else {
+            btnSearch.setTitle("Paste", for: .normal)
+        }
+//        btnSearch.setTitle("Search Number", for: .normal)
         [btnSearch].forEach{(btn) in
             btn?.layer.cornerRadius = (btn?.frame.height)! / 2
             btn?.titleLabel?.font = UIFont(name: APP_DISPLAY_REGULER_FONT, size: 16)
@@ -68,6 +73,7 @@ class textSearchVC: UIViewController {
     
     
     //MARK:- ACTION
+//    mixPanelId
     
     @IBAction func btnCancleAction(_ sender: Any) {
         self.tabBarController?.selectedIndex = 0
@@ -75,25 +81,70 @@ class textSearchVC: UIViewController {
     
     @IBAction func btnSearchAction(_ sender: Any) {
         
-//        if btnSearch.title(for: .normal) == "Search"{
+        if btnSearch.title(for: .normal) == "Search"{
             if txtNumber.text != ""{
                 apiCallSearchResult()
+                Analytics.logEvent("Search", parameters: [
+                    "Number": txtNumber.text as Any
+                ])
+                Mixpanel.mainInstance().track(event: "Search",
+                                              properties: ["Number" : "\(txtNumber.text ?? "")" ])
+                
             }
-//        }else{
+        }else{
+            
+//            txtNumber.text = copy
 //            var val : String = ""
 //            if let copy = UIPasteboard.general.string{
-//                for u in copy.utf16 {
-//                    print(u)
-//                    val = val + "\(u)"
+//                if copy.count <= 10 {
+//                    for u in copy.utf16 {
+//                        print(u)
+//                        val = val + "\(u)"
+//                    }
 //                }
+//                print(copy)
+//
 //            }
 //            txtNumber.text = val
-//            btnSearch.setTitle("Search Number", for: .normal)
-//        }
+            
+            
+//            var val : String = ""
+            if let copy = UIPasteboard.general.string{
+                if (copy.rangeOfCharacter(from: .decimalDigits) != nil) {
+                    if copy.count <= 10 {
+                        btnSearch.setTitle("Search", for: .normal)
+                        txtNumber.text = copy
+                    }else{
+                        btnSearch.setTitle("Paste", for: .normal)
+                        txtNumber.text = ""
+                    }
+                }else{
+                    btnSearch.setTitle("Paste", for: .normal)
+                    /*
+                    for u in copy.utf16 {
+                        print(u)
+                        val = val + "\(u)"
+                    }
+                    
+                    if val.count <= 10 {
+                        btnSearch.setTitle("Search", for: .normal)
+                        txtNumber.text = val
+                    }else{
+                        btnSearch.setTitle("Paste", for: .normal)
+                        txtNumber.text = ""
+                    }
+                     */
+                    
+                }
+            }
+            
+//            btnSearch.setTitle("Paste", for: .normal)
+        }
     }
     
     @IBAction func btnResetAction(_ sender: Any) {
         txtNumber.text = ""
+        btnSearch.setTitle("Paste", for: .normal)
     }
     
 }
@@ -105,7 +156,6 @@ public extension String {
         return  numberFormatter.number(from: self) as? Int
     }
 }
-
 
 //MARK:- Done button action
 
@@ -132,6 +182,7 @@ extension textSearchVC{
     
     @objc func doneButtonClicked(){
         print("search")
+        
         if txtNumber.text != ""{
             apiCallSearchResult()
         }
@@ -234,11 +285,12 @@ extension textSearchVC :GADInterstitialDelegate{
 
 extension textSearchVC : UITextFieldDelegate {
     
+//    func textFieldDidBeginEditing(textField: UITextField) {
+//            textField.text = ""
+//        }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         txtNumber.keyboardType = .numberPad
-//        let invocation = IQInvocation(self, #selector(doneButtonClicked))
-//            txtNumber.keyboardToolbar.doneBarButton.invocation = invocation
         return true
     }
     
@@ -246,12 +298,9 @@ extension textSearchVC : UITextFieldDelegate {
         return txtNumber.resignFirstResponder()
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-//        if btnSearch.title(for: .normal) == "Search" {
-////            delegate?.textFieldEnterValue(text: txtNumber.text!)
-////            self.navigationController?.popViewController(animated: true)
-//        }
-     }
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//
+//    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         txtNumber.resignFirstResponder()
@@ -260,73 +309,69 @@ extension textSearchVC : UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-//        if let text = textField.text as NSString? {
-//            let txtAfterUpdate = text.replacingCharacters(in: range, with: string)
-//            if txtAfterUpdate.count == 0 || txtAfterUpdate.count <= 0{
-//                btnSearch.setTitle("Paste Number", for: .normal)
-//            }else{
-//                btnSearch.setTitle("Search", for: .normal)
-//            }
-//        }
-//        let aSet = NSCharacterSet(charactersIn:"0123456789").inverted
-//        let compSepByCharInSet = string.components(separatedBy: aSet)
-//        let numberFiltered = compSepByCharInSet.joined(separator: "")
-//        return string == numberFiltered
-     
-//        let textString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-//
-//        if textField == txtNumber  && string.count > 0{
-//            let numberOnly = NSCharacterSet.decimalDigits
-//            guard let val = UnicodeScalar("string") else {
-//                return false
-//            }
-//            let strValid = numberOnly.contains(val)
-//            return strValid && textString.count <= 10
-//        }
-//        return true
-        
-//        if textField.text?.count == 0 && string == "0" && string.count > 10 {
-//                return false
-//            }
-//        return string == string.filter("0123456789".contains)
-//        let text = textField.text
-//        if text != nil && text != "" {
-//            if let text = textField.text,
-//                       let textRange = Range(range, in: text) {
-//                        let updatedText = text.replacingCharacters(in: textRange,
-//                                                                   with: string)
-//                return updatedText.count <= 10
-//            }
-//        }
         
         
-    
+        if let text = textField.text as NSString? {
+            let txtAfterUpdate = text.replacingCharacters(in: range, with: string)
+            
+            let components = string.components(separatedBy: allowedCharacters)
+            let filtered = components.joined(separator: "")
+            
+            if string == filtered && txtAfterUpdate.count <= 10{
+                if txtAfterUpdate.count > 0 {
+                    btnSearch.setTitle("Search", for: .normal)
+                }else{
+                    btnSearch.setTitle("Paste", for: .normal)
+                }
+                return true
+            }
+            return false
+            
+        }
         
-//        if let x = string.rangeOfCharacter(from: NSCharacterSet.decimalDigits) {
-//            if let text = textField.text as NSString? {
-//                let txtAfterUpdate = text.replacingCharacters(in: range, with: string)
-//                if txtAfterUpdate.count > 10{
-//                    return false
-//                }
-//            }
-//            return true
-//           }
+        
+        //        let textString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        //
+        //        if textField == txtNumber  && string.count > 0{
+        //            let numberOnly = NSCharacterSet.decimalDigits
+        //            guard let val = UnicodeScalar("string") else {
+        //                return false
+        //            }
+        //            let strValid = numberOnly.contains(val)
+        //            return strValid && textString.count <= 10
+        //        }
+        //        return true
+        
+        //        if textField.text?.count == 0 && string == "0" && string.count > 10 {
+        //                return false
+        //            }
+        //        return string == string.filter("0123456789".contains)
+        //        let text = textField.text
+        //        if text != nil && text != "" {
+        //            if let text = textField.text,
+        //                       let textRange = Range(range, in: text) {
+        //                        let updatedText = text.replacingCharacters(in: textRange,
+        //                                                                   with: string)
+        //                if text.count == 0 || text.count <= 0{
+        //                    btnSearch.setTitle("Search", for: .normal)
+        //                }else{
+        //                    btnSearch.setTitle("Paste", for: .normal)
+        //                }
+        //                return updatedText.count <= 10
+        //            }
+        //        }
+        
         return true
         
-//        let invalidCharacters =
-//            CharacterSet(charactersIn: "0123456789").inverted
-//        if CharacterSet(charactersIn: "0123456789").isSuperset(of: CharacterSet(charactersIn: string))  {
-//            return false
-//        }else{
-//            if let text = textField.text as NSString? {
-//                let txtAfterUpdate = text.replacingCharacters(in: range, with: string)
-//                if txtAfterUpdate.count > 10{
-//                    return false
-//                }
-//            }
-//            return true
-//        }
-                
+    }
+    
+    func doStringContainsNumber( _string : String) -> Bool{
+        
+        let numberRegEx  = ".*[0-9]+.*"
+        let testCase = NSPredicate(format:"SELF MATCHES %@", numberRegEx)
+        let containsNumber = testCase.evaluate(with: _string)
+        
+        return containsNumber
     }
     
 }
@@ -336,7 +381,7 @@ extension textSearchVC : UITextFieldDelegate {
 extension textSearchVC {
     
     func apiCallSearchResult()  {
-
+        
         let hud:MBProgressHUD = MBProgressHUD .showAdded(to: self.view, animated: true)
         
         let escapedString = txtNumber.text!.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
@@ -363,7 +408,7 @@ extension textSearchVC {
                 }else{
                     appDelegate.strval = "0"
                     appDelegate.issearch = true
-//                    defaults.set(false, forKey: "isAppAlreadyLaunchedOnce")
+                    //                    defaults.set(false, forKey: "isAppAlreadyLaunchedOnce")
                     if (defaults.bool(forKey: "purchased")){
                         self.interstitial = nil
                     } else if (!defaults.bool(forKey: "stonerPurchased")) {
@@ -371,13 +416,13 @@ extension textSearchVC {
                         self.showAd()
                     }
                     
-//                    if let vcContactDetail = self.storyboard?.instantiateViewController(withIdentifier: "ContactDetailScreenViewController") as? ContactDetailScreenViewController {
-//                        vcContactDetail.Contact_ID = self.arrSearchList[0]["id"].stringValue
-//                        vcContactDetail.isComeScreen = .Search
-//                        vcContactDetail.delegate = self
-//
-//                        self.navigationController?.pushViewController(vcContactDetail, animated: true)
-//                    }
+                    //                    if let vcContactDetail = self.storyboard?.instantiateViewController(withIdentifier: "ContactDetailScreenViewController") as? ContactDetailScreenViewController {
+                    //                        vcContactDetail.Contact_ID = self.arrSearchList[0]["id"].stringValue
+                    //                        vcContactDetail.isComeScreen = .Search
+                    //                        vcContactDetail.delegate = self
+                    //
+                    //                        self.navigationController?.pushViewController(vcContactDetail, animated: true)
+                    //                    }
                     
                 }
             }

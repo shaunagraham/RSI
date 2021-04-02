@@ -286,11 +286,12 @@ extension MyProfileVC {
         
         APICall.call_API_ImageUpload(url: API.USERUPDATE, param: param, doc: dataarray) { (responseObject, error)  in
             DispatchQueue.main.async {
-                hud .hide(animated: true)
                 
                 if let error = error {
                     self.showToast(message: error.localizedDescription)
                 }else{
+                    hud .hide(animated: true)
+
                     let dictData = JSON(responseObject as Any)
                     
                     if let message =  dictData["error"].string {
@@ -319,8 +320,6 @@ extension MyProfileVC {
             if self.profile?["success"] == false{
                 DisplayAlert(title: oppsmsg , message: self.profile?["error"].stringValue ?? "", vc: self)
             }else{
-                hud.hide(animated: true)
-                
                 
                 let strdetail = self.profile?["info"][0]
                 if strdetail != ""{

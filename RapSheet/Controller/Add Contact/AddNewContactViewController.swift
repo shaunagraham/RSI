@@ -13,7 +13,9 @@ import AFNetworking
 import SwiftyJSON
 import MBProgressHUD
 
-
+enum comeScreen {
+    case contactDetail,Home
+}
 
 class AddNewContactViewController: UIViewController {
     
@@ -22,6 +24,8 @@ class AddNewContactViewController: UIViewController {
     var dataarray:[(parameter_name:String,data:Data,type:String)] = []
     var isImageSelect:Bool = false
     var profilePicData:Data!
+    var dictContactDetail = JSON()
+    var isComeAddNewContact :comeScreen = .contactDetail
     
     //MARK:- Outlet
     
@@ -31,12 +35,12 @@ class AddNewContactViewController: UIViewController {
     @IBOutlet weak var txtLastName: SkyFloatingLabelTextField!
     @IBOutlet weak var txtEmail: SkyFloatingLabelTextField!
     @IBOutlet weak var txtPhoneNumber: SkyFloatingLabelTextField!
-    @IBOutlet weak var txtExtraInfo: SkyFloatingLabelTextField!
-    @IBOutlet var txtInstgramLink: SkyFloatingLabelTextField!
-    @IBOutlet var txtFacebookLink: SkyFloatingLabelTextField!
-    @IBOutlet var txtLinkdinLink: SkyFloatingLabelTextField!
-//    @IBOutlet var viewBannerAd: GADBannerView!
-    @IBOutlet var viewBannerHeightConstraints: NSLayoutConstraint!
+//    @IBOutlet weak var txtExtraInfo: SkyFloatingLabelTextField!
+//    @IBOutlet var txtInstgramLink: SkyFloatingLabelTextField!
+//    @IBOutlet var txtFacebookLink: SkyFloatingLabelTextField!
+//    @IBOutlet var txtLinkdinLink: SkyFloatingLabelTextField!
+////    @IBOutlet var viewBannerAd: GADBannerView!
+//    @IBOutlet var viewBannerHeightConstraints: NSLayoutConstraint!
     
     
     
@@ -44,6 +48,8 @@ class AddNewContactViewController: UIViewController {
     @IBOutlet weak var btnCancle: UIButton!
     @IBOutlet weak var btnadd: UIButton!
     
+    //MARK:- METHODS
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -81,7 +87,29 @@ class AddNewContactViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: Validation
+    override func viewWillAppear(_ animated: Bool) {
+        if isComeAddNewContact == .contactDetail {
+            if "\(dictContactDetail["details"]["profile"])" != "" && "\(dictContactDetail["details"]["profile"])" != "null"{
+                self.imgUser.sd_setImage(with: URL(string: imageURLPath + "/\(dictContactDetail["details"]["profile"])"), completed: nil)
+            }else{
+                self.imgUser.image = UIImage(named: "ic_add_profile")
+            }
+            txtFirstName.text = "\(dictContactDetail["details"]["first_name"].stringValue.capitalized)"
+            txtLastName.text = "\(dictContactDetail["details"]["last_name"].stringValue.capitalized)"
+            let mobileNumber = formatNumber(phoneNumber: dictContactDetail["details"]["number"].stringValue, shouldRemoveLastDigit: false)
+            txtPhoneNumber.text = mobileNumber
+            txtPhoneNumber.isUserInteractionEnabled = false
+            txtEmail.text = dictContactDetail["details"]["email"].stringValue
+        }else{
+            txtPhoneNumber.isUserInteractionEnabled = true
+            txtFirstName.text = ""
+            txtLastName.text = ""
+            txtPhoneNumber.text = ""
+            txtEmail.text = ""
+        }
+    }
+    
+    // MARK:- Validation
     
     func validation() -> Bool {
         
@@ -151,7 +179,7 @@ class AddNewContactViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    //MARK: Camera And Gallery Image Selection
+    //MARK:- Camera And Gallery Image Selection
     
     func openCamera()
     {
@@ -188,7 +216,10 @@ class AddNewContactViewController: UIViewController {
         }
         
         let hud:MBProgressHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
-        let param = [kFirstName : txtFirstName.text ?? "", kLastName :txtLastName.text ?? "", kEmail :txtEmail.text ?? "", kNumber :txtPhoneNumber.text ?? "", kWeblink : txtExtraInfo.text ?? "", kInstagram : txtInstgramLink.text ?? "", kFacebook : txtFacebookLink.text ?? "", kLinkedin : txtLinkdinLink.text ?? "", kUserid : dictUserDetail .value(forKey: "id")!] as [String : Any]
+        
+        let param = [String :Any]()
+            
+//            [kFirstName : txtFirstName.text ?? "", kLastName :txtLastName.text ?? "", kEmail :txtEmail.text ?? "", kNumber :txtPhoneNumber.text ?? "", kWeblink : txtExtraInfo.text ?? "", kInstagram : txtInstgramLink.text ?? "", kFacebook : txtFacebookLink.text ?? "", kLinkedin : txtLinkdinLink.text ?? "", kUserid : dictUserDetail .value(forKey: "id")!] as [String : Any]
         
         
         if self.profilePicData != nil {
@@ -279,7 +310,7 @@ extension AddNewContactViewController : BlockListReloadDelegateProtocol {
     
 }
 
-//MARK: UITextField Delegate Method
+//MARK:- UITextField Delegate Method
 
 extension AddNewContactViewController : UITextFieldDelegate {
     
@@ -296,8 +327,10 @@ extension AddNewContactViewController : UITextFieldDelegate {
             txtEmail.becomeFirstResponder()
         }else if textField == txtEmail{
             txtEmail.resignFirstResponder()
-            txtExtraInfo.becomeFirstResponder()
-        }else if textField == txtExtraInfo{
+            //txtExtraInfo.becomeFirstResponder()
+        }
+        /*
+        else if textField == txtExtraInfo{
             txtExtraInfo.resignFirstResponder()
             txtInstgramLink.becomeFirstResponder()
         }else if textField == txtInstgramLink{
@@ -309,6 +342,7 @@ extension AddNewContactViewController : UITextFieldDelegate {
         }else {
             txtLinkdinLink.resignFirstResponder()
         }
+ */
         return true
     }
     
@@ -351,13 +385,15 @@ extension AddNewContactViewController : UITextFieldDelegate {
             textField.text = formattedString as String
             return false
             
-        } else if textField == txtExtraInfo {
-            let maxLength = 20
-            let currentString: NSString = textField.text! as NSString
-            let newString: NSString =
-                currentString.replacingCharacters(in: range, with: string) as NSString
-            return newString.length <= maxLength
-        }else{
+        }
+//        else if textField == txtExtraInfo {
+//            let maxLength = 20
+//            let currentString: NSString = textField.text! as NSString
+//            let newString: NSString =
+//                currentString.replacingCharacters(in: range, with: string) as NSString
+//            return newString.length <= maxLength
+//        }
+        else{
             return true
         }
     }

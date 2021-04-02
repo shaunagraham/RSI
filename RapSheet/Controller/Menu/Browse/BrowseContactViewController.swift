@@ -32,6 +32,11 @@ class BrowseContactViewController: UIViewController{
     }
     @IBOutlet var viewSearching: UIView!
 
+    @IBOutlet weak var btnBack: UIButton!
+    @IBOutlet weak var lblTitleName: UILabel!
+    @IBOutlet weak var btnImage: UIButton!
+    @IBOutlet weak var viewNoBlockedList: UIView!
+    
     //MARK:- Variables
     var arrBrowseContactList:[JSON] = []
     var arrSearchContactList:[JSON] = []
@@ -42,7 +47,10 @@ class BrowseContactViewController: UIViewController{
     var arrSearchObjectList:NSMutableArray?
     var intCountTap:Int = 0
     var intTextSearchCount:Int = 0
+    var isComeFromProfile : Bool = false
     
+    //MARK:- METHODS
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -51,6 +59,8 @@ class BrowseContactViewController: UIViewController{
         lblblacklist.tintColor = .white
         
         viewaddcontact.applyCornerRadius(radius: viewaddcontact.frame.size.height/2)
+        fetchBrowseContactList()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,7 +80,17 @@ class BrowseContactViewController: UIViewController{
                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name: APP_DISPLAY_THIN_FONT, size: 24)!])
         txtSearch.setLeftImage(imageName: "ic_search_white")
         txtSearch.text = ""
-        fetchBrowseContactList()
+        
+        if isComeFromProfile == true {
+            btnImage.isHidden = true
+            lblTitleName.isHidden = false
+            btnBack.isHidden = false
+        }else{
+            btnImage.isHidden = false
+            lblTitleName.isHidden = true
+            btnBack.isHidden = true
+        }
+        
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -88,6 +108,10 @@ class BrowseContactViewController: UIViewController{
         self.tabBarController?.selectedIndex = 0
     }
     
+    @IBAction func btnBackAction(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     //MARK:- Fetch Browse Contact List
     
     func fetchBrowseContactList()  {
@@ -95,16 +119,30 @@ class BrowseContactViewController: UIViewController{
         let hud:MBProgressHUD = MBProgressHUD .showAdded(to: self.view, animated: true)
         
         APICall.call_API_Get_Mehotd(url: isBrowseContact ? (API.BROWSE_CONTACT) : (API.RECENT_CONTACT)) { (object) in
+           
             hud .hide(animated: true)
-         
             let objectDetail = JSON(object)
             print("objectDetail:-\(objectDetail)")
             
             if objectDetail["success"] == false{
+                hud .hide(animated: true)
                 DisplayAlert(title: oppsmsg , message: objectDetail["error"].stringValue, vc: self)
             }else{
+                hud .hide(animated: true)
+                
                 self.arrBrowseContactList = objectDetail["Contacts"].arrayValue
                 self.arrSearchContactList = objectDetail["Contacts"].arrayValue
+                
+                if self.isComeFromProfile == true {
+                    if self.arrSearchContactList.count == 0 {
+                        self.viewNoBlockedList.isHidden = false
+                    }else{
+                        self.viewNoBlockedList.isHidden = true
+                    }
+                }else{
+                    self.viewNoBlockedList.isHidden = true
+                }
+                
                 self.tblBrowseContact.reloadData()
             }
         }

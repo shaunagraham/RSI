@@ -23,6 +23,10 @@ target 'RapSheet' do
   pod 'Toast-Swift'
   pod 'KeychainAccess'
   pod 'UITextView+Placeholder'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Crashlytics'
+  pod 'Mixpanel-swift'
+  
   #pod 'UIFloatLabelTextView'
   # Pods for RapSheet
 post_install do |installer|

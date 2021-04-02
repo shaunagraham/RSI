@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>520441073754-4r985fphaf47hhe2utf1eor71e6t3q0l.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.520441073754-4r985fphaf47hhe2utf1eor71e6t3q0l</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>520441073754-11v7otiss1f8jpfubg3qs2qvu0e456v6.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCaDmqvObLsZtRGoraa5vTRARTVu_xJXmQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>520441073754</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.adrapsheet.crawlapps</string>
+	<key>PROJECT_ID</key>
+	<string>rap-sheet</string>
+	<key>STORAGE_BUCKET</key>
+	<string>rap-sheet.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:520441073754:ios:3c53a4e1330f877ab14863</string>
+	<key>DATABASE_URL</key>
+	<string>https://rap-sheet.firebaseio.com</string>
+</dict>
+</plist>

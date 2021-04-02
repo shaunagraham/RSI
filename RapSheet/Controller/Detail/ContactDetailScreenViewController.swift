@@ -67,28 +67,65 @@ class ContactDetailScreenViewController: UIViewController {
     @IBOutlet weak var lblUserEmail: UILabel!
     @IBOutlet weak var lblExtraInfo: UILabel!
     @IBOutlet weak var lblNoComment: UILabel!
-    @IBOutlet weak var lblTopAddComment: UILabel!
+   // @IBOutlet weak var lblTopAddComment: UILabel!
     @IBOutlet weak var btnAddComment: UIButton!
-    @IBOutlet weak var lblBottomAddComment: UILabel!
-    @IBOutlet weak var btnBottomAddComment: UIButton!
+//    @IBOutlet weak var lblBottomAddComment: UILabel!
+//    @IBOutlet weak var btnBottomAddComment: UIButton!
 
     @IBOutlet weak var tblCommentList: UITableView!
     @IBOutlet weak var constraintContactImageWidth: NSLayoutConstraint!
+    
+    
+    @IBOutlet weak var btnReport: UIButton!{
+        didSet {
+            btnReport.titleLabel?.textColor = APP_DETAILSCREEN_COLOR
+            btnReport.backgroundColor = TAB_BACKGROUND_COLOR
+            btnReport.layer.cornerRadius = btnReport.frame.height / 2
+        }
+    }
+    
+    @IBOutlet weak var btnUpdate: UIButton! {
+        didSet {
+            btnUpdate.titleLabel?.textColor = APP_DETAILSCREEN_COLOR
+            btnUpdate.backgroundColor = TAB_BACKGROUND_COLOR
+            btnUpdate.layer.cornerRadius = btnUpdate.frame.height / 2
+        }
+    }
+    
+    @IBOutlet weak var btnBlock: UIButton! {
+        didSet {
+            btnBlock.titleLabel?.textColor = APP_DETAILSCREEN_COLOR
+            btnBlock.backgroundColor = TAB_BACKGROUND_COLOR
+            btnBlock.layer.cornerRadius = btnBlock.frame.height / 2
+        }
+    }
+    
+    @IBOutlet weak var viewMainBlock: UIView! {
+        didSet {
+            viewMainBlock.layer.cornerRadius = 8.0
+            viewMainBlock.layer.shadowColor = UIColor.gray.cgColor
+            viewMainBlock.layer.shadowOpacity = 0.2
+            viewMainBlock.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+            viewMainBlock.layer.shadowRadius = 3.0
+            viewMainBlock.layer.masksToBounds =  false
+        }
+    }
+    
+    //MARK:- override method
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tblCommentList.isEditing = false
         // Do any additional setup after loading the view.
 
-        rightBarDropDown.textFont = UIFont(name: "futura", size: 14)!
-        rightBarDropDown.backgroundColor = UIColor.white
-        rightBarDropDown.cellHeight = 38
-        rightBarDropDown.width = 115
-        rightBarDropDown.separatorColor = UIColor.black .withAlphaComponent(0.20)
-        rightBarDropDown.cornerRadius = 10
+//        rightBarDropDown.textFont = UIFont(name: "futura", size: 14)!
+//        rightBarDropDown.backgroundColor = UIColor.white
+//        rightBarDropDown.cellHeight = 38
+//        rightBarDropDown.width = 115
+//        rightBarDropDown.separatorColor = UIColor.black .withAlphaComponent(0.20)
+//        rightBarDropDown.cornerRadius = 10
         
         imgContact.layer.cornerRadius = imgContact.frame.size.height/2
-        
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -99,7 +136,7 @@ class ContactDetailScreenViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
 //        interstitial = createAndLoadInterstitial()
-        
+        arrCommentList.removeAll()
         getContactDetail(Id: Contact_ID ?? "")
         
         NotificationCenter.default.addObserver(self, selector: #selector(ContactDetailScreenViewController.methodOfReceivedNotification(notification:)), name: Notification.Name("NotificationToAddComment"), object: nil)
@@ -107,7 +144,7 @@ class ContactDetailScreenViewController: UIViewController {
         
     }
     
-    //MARK: Set Silent Push Notification
+    //MARK:- Set Silent Push Notification
     
     @objc func methodOfReceivedNotification(notification: Notification) {
         
@@ -278,6 +315,43 @@ class ContactDetailScreenViewController: UIViewController {
     
     //MARK:- Action
 
+    @IBAction func btnReportAction(_ sender: UIButton) {
+        btnReport.setTitleColor(APP_WHITE_COLOR, for: .normal)
+        btnReport.backgroundColor = .systemRed
+        btnUpdate.titleLabel?.textColor = APP_DETAILSCREEN_COLOR
+        btnUpdate.backgroundColor = TAB_BACKGROUND_COLOR
+        btnBlock.titleLabel?.textColor = APP_DETAILSCREEN_COLOR
+        btnBlock.backgroundColor = TAB_BACKGROUND_COLOR
+        
+    }
+    
+    @IBAction func btnUpdateAction(_ sender: UIButton) {
+        btnUpdate.setTitleColor(APP_WHITE_COLOR, for: .normal)
+        btnUpdate.backgroundColor = .systemRed
+        btnReport.titleLabel?.textColor = APP_DETAILSCREEN_COLOR
+        btnReport.backgroundColor = TAB_BACKGROUND_COLOR
+        btnBlock.titleLabel?.textColor = APP_DETAILSCREEN_COLOR
+        btnBlock.backgroundColor = TAB_BACKGROUND_COLOR
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "AddNewContactViewController") as! AddNewContactViewController
+        vc.isComeAddNewContact = .contactDetail
+        vc.dictContactDetail = self.dictContactDetail ?? JSON()
+        self.navigationController?.pushViewController(vc, animated: true)
+
+    }
+    
+    @IBAction func btnBlockAction(_ sender: UIButton) {
+        btnBlock.setTitleColor(APP_WHITE_COLOR, for: .normal)
+        btnBlock.backgroundColor = .systemRed
+        btnUpdate.titleLabel?.textColor = APP_DETAILSCREEN_COLOR
+        btnUpdate.backgroundColor = TAB_BACKGROUND_COLOR
+        btnReport.titleLabel?.textColor = APP_DETAILSCREEN_COLOR
+        btnReport.backgroundColor = TAB_BACKGROUND_COLOR
+        showAlert(withTitle:"", withMessage: "Do you want to unblock \(lblContactName.text ?? "") and \(lblContactNumber.text ?? "")")
+
+//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "BrowseContactViewController") as! BrowseContactViewController
+//        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     @IBAction func onBackAction(_ sender: Any) {
         
         if isComeScreen == .Logs{
@@ -598,18 +672,19 @@ extension ContactDetailScreenViewController : UITextFieldDelegate {
 extension ContactDetailScreenViewController : UITableViewDataSource,UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        
+        /*
         if arrCommentList.count == 0 {
             lblNoComment.isHidden = false
             btnAddComment.isHidden = false
-            lblBottomAddComment.isHidden = true
-            btnBottomAddComment.isHidden = true
+//            lblBottomAddComment.isHidden = true
+//            btnBottomAddComment.isHidden = true
         }else{
             lblNoComment.isHidden = true
             btnAddComment.isHidden = true
-            lblBottomAddComment.isHidden = false
-            btnBottomAddComment.isHidden = false
+//            lblBottomAddComment.isHidden = false
+//            btnBottomAddComment.isHidden = false
         }
+        */
         return arrCommentList.count
     }
     

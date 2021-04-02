@@ -14,7 +14,8 @@ import Crashlytics
 import AdSupport
 import KeychainAccess
 import GoogleMobileAds
-
+import Firebase
+import Mixpanel
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,6 +30,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        28970247-0C2F-43CC-B654-F3E28169489B
         GADMobileAds.configure(withApplicationID: API.UNIT_AD_ID)
         Fabric.with([Crashlytics.self])
+        
+        FirebaseApp.configure()
+        Analytics.setAnalyticsCollectionEnabled(true)
+        
+        Mixpanel.initialize(token: mixPanelId)
+
         
         if defaults.bool(forKey: "isLaunchFirstTime") {
             defaults.set(false, forKey: "isAppAlreadyLaunchedOnce")

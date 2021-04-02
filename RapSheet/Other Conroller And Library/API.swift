@@ -15,6 +15,7 @@ import SwiftyJSON
 
 
 let mainkey = "fa7cb170bfdfda8e6a4436553af374f5"
+let mixPanelId = "45b9c7613d1e2cd6255b06e2cf061a00"
 
 let headers: HTTPHeaders = [
     "key":mainkey

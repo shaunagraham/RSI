@@ -16,7 +16,8 @@ import MessageUI
 import ContactsUI
 import MBProgressHUD
 import GoogleMobileAds
-
+import Firebase
+import Mixpanel
 
 class HomeScreenViewController: UIViewController, SWRevealViewControllerDelegate  {
     
@@ -48,7 +49,7 @@ class HomeScreenViewController: UIViewController, SWRevealViewControllerDelegate
         }
     }
     @IBOutlet var viewSearching: UIView!
-    
+    @IBOutlet weak var btnReferesh: UIButton!
     
     //MARK:- METHODS
     
@@ -60,6 +61,7 @@ class HomeScreenViewController: UIViewController, SWRevealViewControllerDelegate
     
     override func viewWillAppear(_ animated: Bool) {
         
+       
         
         let val = defaults.value(forKey: "isAppAlreadyLaunchedOnce")
         print("val \(String(describing: val))")
@@ -68,11 +70,13 @@ class HomeScreenViewController: UIViewController, SWRevealViewControllerDelegate
             viewAddContact.isHidden = true
             btnAddContact.isHidden = true
             defaults.set(false, forKey: "isAppAlreadyLaunchedOnce")
+            btnReferesh.isHidden = true
         }else {
             self.lblNoRecordFound.isHidden = false
             self.lblNoRecordFound.text = "No Results Found"
             viewAddContact.isHidden = false
             btnAddContact.isHidden = false
+            btnReferesh.isHidden = true
         }
         
         if appDelegate.strval == "1"{
@@ -83,6 +87,7 @@ class HomeScreenViewController: UIViewController, SWRevealViewControllerDelegate
             self.tblSearchResultList.isHidden = true
             self.btnAddContact.isHidden = false
             self.viewAddContact.isHidden = false
+            btnReferesh.isHidden = false
         }else if appDelegate.strval == "0"{
             txtSearch.text = ""
             ManageSaveSearchResult()
@@ -91,6 +96,7 @@ class HomeScreenViewController: UIViewController, SWRevealViewControllerDelegate
             self.tblSearchResultList.isHidden = false
             self.btnAddContact.isHidden = true
             self.viewAddContact.isHidden = true
+            btnReferesh.isHidden = true
         }
         
         /*
@@ -321,8 +327,8 @@ class HomeScreenViewController: UIViewController, SWRevealViewControllerDelegate
     }
     
     @IBAction func onAddNewContact(_ sender: Any) {
-        
         let vcAddContact = self.storyboard?.instantiateViewController(withIdentifier: "AddNewContactViewController") as! AddNewContactViewController
+        vcAddContact.isComeAddNewContact = .Home
         self.navigationController?.pushViewController(vcAddContact, animated: true)
     }
     
@@ -389,6 +395,9 @@ class HomeScreenViewController: UIViewController, SWRevealViewControllerDelegate
         self.tabBarController?.selectedIndex = 1
 //        viewController?.delegate = self
         
+    }
+    
+    @IBAction func btnRefereshAction(_ sender: Any) {
     }
     
     // MARK: - Present Report Contact
@@ -475,6 +484,11 @@ extension HomeScreenViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let dictSearchDetail = arrSearchList[indexPath.section]
+        Analytics.logEvent("Home", parameters: [
+            "Number": dictSearchDetail["number"].stringValue
+        ])
+        Mixpanel.mainInstance().track(event: "Home",
+                                      properties: ["Number" : dictSearchDetail["number"].stringValue ])
         
         let vcContactDetail = self.storyboard?.instantiateViewController(withIdentifier: "ContactDetailScreenViewController") as! ContactDetailScreenViewController
         vcContactDetail.Contact_ID = dictSearchDetail["id"].stringValue

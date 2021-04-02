@@ -52,6 +52,8 @@ class AddContactReportViewController: UIViewController {
         }
     }
     
+    //MARK:- METHODS
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -71,7 +73,7 @@ class AddContactReportViewController: UIViewController {
         
     }
     
-    // MARK: Validation
+    // MARK:- Validation
     
     func validation() -> Bool {
         
@@ -154,7 +156,7 @@ extension AddContactReportViewController: UIViewControllerTransitioningDelegate 
     }
 }
 
-//MARK: UITextView Delegate Method
+//MARK:- UITextView Delegate Method
 
 extension AddContactReportViewController : UITextViewDelegate {
     
